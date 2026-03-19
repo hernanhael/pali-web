@@ -15,11 +15,11 @@ Sitio web profesional para la Dra. María Paula Cajal, odontóloga. El sitio com
 | Estilos        | Tailwind CSS v3                                              |
 | Componentes UI | shadcn/ui                                                    |
 | Animaciones    | Framer Motion                                                |
-| Imágenes       | Cloudinary (next-cloudinary)                                 |
-| Blog           | MDX (next-mdx-remote)                                        |
-| Base de datos  | Prisma + PostgreSQL (Supabase)                               |
+| Imágenes       | Cloudinary (next-cloudinary) — `CldImage` en componentes     |
+| Blog           | MDX (next-mdx-remote/rsc)                                    |
+| Base de datos  | Prisma v5 + PostgreSQL (Supabase)                            |
 | Email          | Resend                                                       |
-| Hosting        | Vercel                                                       |
+| Hosting        | Vercel (región gru1 — São Paulo)                             |
 | Fuentes        | Google Fonts: Cormorant Garamond (headings) + DM Sans (body) |
 
 ---
@@ -37,23 +37,19 @@ Sitio web profesional para la Dra. María Paula Cajal, odontóloga. El sitio com
 | — | Dorado | `#C8A96E` | Acento editorial, mantener |
 
 ```css
-/* Variables CSS globales — definir en globals.css */
+/* Variables CSS globales — definidas en src/app/globals.css */
 :root {
-  --bg-primary:  #ECEBE8;                    /* SW 9542 Natural White */
-  --bg-glass:    rgba(198, 192, 182, 0.35);  /* SW 7641 con transparencia */
-  --bg-surface:  rgba(236, 235, 232, 0.80);  /* SW 9542 con transparencia */
-
-  --blue-soft:   #AABAC6;   /* SW 6240 Windy Blue */
-  --blue-mid:    #768B9A;   /* SW 6242 Bracing Blue */
-  --gray-warm:   #C6C0B6;   /* SW 7641 Colonnade Gray */
-  --gray-text:   #4A5568;   /* Mantener para legibilidad */
-
+  --bg-primary:  #ECEBE8;
+  --bg-glass:    rgba(198, 192, 182, 0.35);
+  --bg-surface:  rgba(236, 235, 232, 0.80);
+  --blue-soft:   #AABAC6;
+  --blue-mid:    #768B9A;
+  --gray-warm:   #C6C0B6;
   --gold:        #C8A96E;
   --gold-light:  #E8D5A3;
   --gold-dark:   #A07840;
-
-  --text-primary:   #2B2B2B;   /* Neutro cálido (reemplaza ink azulado) */
-  --text-secondary: #768B9A;   /* SW 6242 */
+  --text-primary:   #2B2B2B;
+  --text-secondary: #768B9A;
 }
 ```
 
@@ -65,10 +61,10 @@ colors: {
   glass:   'rgba(198, 192, 182, 0.35)',
   surface: 'rgba(236, 235, 232, 0.80)',
   blue: {
-    soft: '#AABAC6',   // SW 6240 Windy Blue
-    mid:  '#768B9A',   // SW 6242 Bracing Blue
+    soft: '#AABAC6',
+    mid:  '#768B9A',
   },
-  warm:  '#C6C0B6',    // SW 7641 Colonnade Gray
+  warm:  '#C6C0B6',
   gold: {
     DEFAULT: '#C8A96E',
     light:   '#E8D5A3',
@@ -82,13 +78,7 @@ colors: {
 
 - Headings: Cormorant Garamond — serif elegante, da carácter editorial y sofisticado
 - Body / UI: DM Sans — sans-serif moderno, legible, amigable
-- Tamaños base: Mobile-first con `clamp()` para fluidez responsive
-
-```css
-h1 { font-family: 'Cormorant Garamond'; font-size: clamp(2.5rem, 6vw, 5rem); }
-h2 { font-family: 'Cormorant Garamond'; font-size: clamp(2rem, 4vw, 3.5rem); }
-p  { font-family: 'DM Sans'; font-size: clamp(0.95rem, 1.5vw, 1.1rem); }
-```
+- Variables CSS: `--font-cormorant` y `--font-dm-sans` (vía `next/font/google`)
 
 ### Principios de Animación (Framer Motion)
 
@@ -97,30 +87,18 @@ p  { font-family: 'DM Sans'; font-size: clamp(0.95rem, 1.5vw, 1.1rem); }
 - Stagger en listas/grids: 0.08s entre elementos
 - Scroll-triggered: usar `whileInView` + `viewport={{ once: true, amount: 0.2 }}`
 - Hover: escala sutil 1.02, transición 0.3s
-- No usar: rebotes excesivos, rotaciones aleatorias, efectos de "carga" largos
-
-```ts
-// Variante reutilizable de entrada
-export const fadeUp = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } }
-}
-
-export const stagger = {
-  visible: { transition: { staggerChildren: 0.08 } }
-}
-```
+- Todas las variantes están en `src/lib/animations.ts` — importar siempre desde ahí
 
 ### Estilo Visual — Directrices
 
-1. **Glassmorphism:** Cards con `backdrop-blur-md`, fondo semi-transparente, borde `1px solid rgba(255,255,255,0.5)`
+1. **Glassmorphism:** clase utilitaria `.glass` en `globals.css` — `backdrop-blur-md`, fondo semi-transparente, borde `1px solid rgba(255,255,255,0.5)`
 2. **Sin bordes cuadrados:** `border-radius` mínimo 12px, preferir 20px–32px en cards grandes
 3. **Layouts asimétricos:** Evitar grids perfectamente centrados. Usar offsets, columnas de distinto tamaño
-4. **Espacio en blanco generoso:** padding vertical entre secciones mínimo `py-24`
-5. **Líneas doradas como decoración:** separadores finos `h-px bg-gold/40`, no usar `<hr>` plano
-6. **Sin sombras pesadas:** usar `shadow-sm` o sombras personalizadas suaves con opacidad baja
+4. **Espacio en blanco generoso:** padding vertical entre secciones mínimo `py-24` (`py-28` en la práctica)
+5. **Líneas doradas como decoración:** usar el componente `<GoldDivider />`, no `<hr>` plano
+6. **Sin sombras pesadas:** usar `shadow-sm` o sombras con opacidad baja
 7. **Imágenes con aspect-ratio fijo:** `aspect-[4/5]` para retratos, `aspect-[16/9]` para consultorio
-8. **Cursor personalizado (opcional):** cursor circular que cambia al hover en elementos interactivos
+8. **Imágenes:** siempre via `CldImage` de `next-cloudinary` — nunca hardcodear URLs ni subir al repo
 
 ---
 
@@ -129,121 +107,130 @@ export const stagger = {
 ```
 src/
 ├── app/
-│   ├── layout.tsx               # Layout global, fuentes, metadata SEO
-│   ├── page.tsx                 # Página home (sección "Quién soy")
+│   ├── layout.tsx                  # Layout global: fuentes, metadata SEO, Schema.org, Navbar/Footer/WA
+│   ├── page.tsx                    # Home: HeroSection → AboutSection → CredentialsSection → TestimonialsSection
+│   ├── sitemap.ts                  # Sitemap automático (rutas estáticas + artículos MDX)
+│   ├── robots.ts                   # robots.txt (bloquea /admin/ y /api/)
+│   ├── globals.css                 # Variables CSS, estilos base, .glass, .gold-divider
 │   ├── tratamientos/
-│   │   └── page.tsx             # Galería de tratamientos
+│   │   ├── layout.tsx              # Metadata de la sección (necesario porque page.tsx es "use client")
+│   │   └── page.tsx                # Grid con filtros por categoría + modal con BeforeAfterSlider
 │   ├── consultorio/
-│   │   └── page.tsx             # Fotos y herramientas del consultorio
+│   │   └── page.tsx                # Galería masonry + ToolCard flip-on-hover
 │   ├── turnos/
-│   │   └── page.tsx             # Formulario de reserva
+│   │   └── page.tsx                # Layout asimétrico: info lateral + formulario glassmorphism
 │   ├── blog/
-│   │   ├── page.tsx             # Listado de artículos
-│   │   └── [slug]/page.tsx      # Artículo individual
+│   │   ├── page.tsx                # Listado de artículos
+│   │   └── [slug]/page.tsx         # Artículo individual con MDX (next-mdx-remote/rsc)
+│   ├── admin/
+│   │   └── turnos/page.tsx         # Panel admin: login con ADMIN_SECRET, lista y cambio de estado
 │   └── api/
-│       ├── turnos/
-│       │   └── route.ts         # POST: guardar turno en DB + enviar email
-│       └── admin/
-│           └── turnos/route.ts  # GET: listar turnos (protegido)
+│       ├── turnos/route.ts         # POST: guarda turno en DB + emails con Resend
+│       └── admin/turnos/route.ts   # GET: listar turnos | PATCH: cambiar estado (protegido)
 │
 ├── components/
 │   ├── layout/
-│   │   ├── Navbar.tsx           # Navbar flotante con blur
+│   │   ├── Navbar.tsx              # Navbar flotante con blur, menú móvil animado
 │   │   ├── Footer.tsx
-│   │   └── WhatsAppButton.tsx   # Botón flotante WhatsApp
+│   │   └── WhatsAppButton.tsx      # Botón flotante (actualizar número real)
 │   ├── home/
-│   │   ├── HeroSection.tsx      # Foto + nombre + frase + CTA
-│   │   ├── AboutSection.tsx     # Bio, formación, valores
-│   │   ├── CredentialsSection.tsx  # Sección diplomas y certificados
-│   │   ├── DiplomaCard.tsx      # Card imagen + caption (variante featured)
+│   │   ├── HeroSection.tsx         # Foto + nombre + CTA + stats con CountUp + scroll indicator
+│   │   ├── AboutSection.tsx        # Bio, valores en columnas asimétricas
+│   │   ├── CredentialsSection.tsx  # Título featured + grid especializaciones + grid cursos
+│   │   ├── DiplomaCard.tsx         # Card con CldImage + variantes featured/medium/compact
 │   │   └── TestimonialsSection.tsx
 │   ├── tratamientos/
-│   │   ├── TreatmentCard.tsx    # Card con before/after slider
-│   │   └── BeforeAfterSlider.tsx # Slider interactivo con drag
+│   │   ├── TreatmentCard.tsx       # Card con modal de detalle
+│   │   └── BeforeAfterSlider.tsx   # Slider drag (mouse + touch)
 │   ├── consultorio/
-│   │   ├── OfficeGallery.tsx    # Grilla de fotos del consultorio
-│   │   └── ToolCard.tsx         # Card de herramienta con flip/hover
+│   │   ├── OfficeGallery.tsx       # Galería masonry (columns CSS)
+│   │   └── ToolCard.tsx            # Card flip-on-hover (CSS 3D transform)
 │   ├── turnos/
-│   │   ├── TurnoForm.tsx        # Formulario de reserva
+│   │   ├── TurnoForm.tsx           # react-hook-form + zod, POST a /api/turnos
 │   │   └── ConfirmationModal.tsx
 │   ├── blog/
-│   │   ├── ArticleCard.tsx
-│   │   └── MDXComponents.tsx    # Componentes custom para MDX
+│   │   ├── ArticleCard.tsx         # Card con CldImage para coverImage
+│   │   └── MDXComponents.tsx       # h1–h3, p, ul, li, blockquote, hr, a custom
 │   └── ui/
-│       ├── GoldDivider.tsx      # Separador dorado decorativo
-│       ├── SectionTitle.tsx     # Título de sección con estilo editorial
-│       ├── GlassCard.tsx        # Card glassmorphism reutilizable
-│       └── DiplomaLightbox.tsx  # Modal lightbox para diplomas
+│       ├── GoldDivider.tsx         # Separador animado con scaleX
+│       ├── SectionTitle.tsx        # eyebrow + h2 + subtitle con stagger
+│       ├── GlassCard.tsx           # Card glassmorphism reutilizable
+│       ├── DiplomaLightbox.tsx     # Modal fullscreen con CldImage
+│       └── CountUp.tsx             # Contador animado (useInView + interval)
 │
 ├── lib/
-│   ├── prisma.ts                # Instancia Prisma singleton
-│   ├── resend.ts                # Cliente Resend para emails
-│   ├── cloudinary.ts            # Config Cloudinary
-│   └── animations.ts            # Variantes Framer Motion reutilizables
+│   ├── prisma.ts                   # Singleton PrismaClient
+│   ├── resend.ts                   # sendConfirmationEmail + sendNotificationEmail (lazy init)
+│   ├── cloudinary.ts               # Helper cloudinaryUrl() para transformaciones manuales
+│   ├── animations.ts               # fadeUp, fadeIn, fadeLeft, fadeRight, stagger, scaleIn, viewportConfig
+│   ├── turno-schema.ts             # Zod schema TurnoFormData (compartido cliente/servidor)
+│   └── blog.ts                     # getAllArticles() + getArticleBySlug() con gray-matter
 │
 ├── data/
-│   └── credentials.ts           # Datos placeholder de diplomas y certificados
+│   ├── credentials.ts              # Tipo Diploma + array credentials[] con placeholder data
+│   └── treatments.ts               # Tipo Treatment + array treatments[] con 8 tratamientos
 │
-├── content/
-│   └── blog/                    # Archivos .mdx de artículos
-│       └── ejemplo-articulo.mdx
-│
-└── styles/
-    └── globals.css              # Variables CSS, estilos base, fuentes
+└── content/
+    └── blog/
+        ├── cuidado-diario-dientes.mdx
+        └── ortodoncia-invisible-vs-brackets.mdx
 ```
+
+---
+
+## Notas importantes de implementación
+
+### Páginas "use client" y metadata
+Las páginas que usan `"use client"` (como `/tratamientos`) no pueden exportar `metadata` directamente. La solución es crear un `layout.tsx` en el mismo directorio que sí puede exportarla.
+
+### Prisma — versión v5
+Se usa **Prisma v5** (no v7). La v7 cambió el sistema de configuración y es incompatible con el `prisma/schema.prisma` actual. No actualizar sin revisar el migration guide.
+
+### Resend — inicialización lazy
+El cliente Resend se crea dentro de la función (`getResend()`), no al importar el módulo. Esto evita errores de build cuando `RESEND_API_KEY` no está definida. Si no hay API key, las funciones de email simplemente no hacen nada.
+
+### Imágenes con Cloudinary
+- Usar `CldImage` de `next-cloudinary` en todos los componentes con imagen real
+- El `public_id` de Cloudinary se guarda en `cloudinaryId` (diplomas) o `coverImage` (blog)
+- Para la foto principal del hero: definir `NEXT_PUBLIC_HERO_IMAGE_ID` en `.env.local`
+- El helper `cloudinaryUrl()` en `lib/cloudinary.ts` es para transformaciones manuales cuando no se usa `CldImage`
 
 ---
 
 ## Secciones y Componentes Clave
 
-### 1. Home — "Quién soy" (`/`)
-
-- Hero con foto grande en asimetría, nombre editorial en serif grande
-- Frase personal o lema profesional en dorado
-- Scroll indicator animado (línea que baja)
-- Bio en columnas asimétricas (texto 60% / detalle visual 40%)
-- Logros / números animados: años de experiencia, pacientes, tratamientos
-- Botón CTA: "Reservar turno" → `/turnos`
-- **Orden de secciones:** HeroSection → AboutSection → CredentialsSection → TestimonialsSection
-
-### 1b. Home — Formación Académica (`CredentialsSection`)
-
-- **Título universitario:** `DiplomaCard` con variante `featured` — imagen grande, borde dorado, caption prominente
-- **Especializaciones/Posgrados:** grid de 3 columnas de `DiplomaCard` medianas
-- **Cursos y certificados:** grid de 4 columnas de `DiplomaCard` compactas
-- Click en cualquier imagen → `DiplomaLightbox` con imagen a tamaño completo
-- Datos en `src/data/credentials.ts` con tipo `Diploma` (category: 'titulo' | 'especializacion' | 'curso')
-- Imágenes en Cloudinary (cloudinaryId como public_id)
+### 1. Home (`/`)
+- **HeroSection:** foto asimétrica con `CldImage` (NEXT_PUBLIC_HERO_IMAGE_ID), nombre en serif, stats con `CountUp`, scroll indicator
+- **AboutSection:** bio + valores en columnas, card flotante con cita
+- **CredentialsSection:** diploma featured + grid especializaciones + grid cursos, click → `DiplomaLightbox`
+- **TestimonialsSection:** grid de 3 cards glassmorphism
+- Datos de diplomas en `src/data/credentials.ts`
 
 ### 2. Tratamientos (`/tratamientos`)
-
-- Intro con título editorial
-- Grid asimétrico de tratamientos (cards de distintos tamaños)
-- Cada card: nombre del tratamiento, descripción breve, slider before/after
-- Al hacer click: modal o página de detalle con más imágenes y explicación completa
-- Categorías filtrables (Estética, Ortodoncia, Implantes, General)
+- Filtros por categoría (Todos / Estética / Ortodoncia / Implantes / General)
+- `TreatmentCard` abre modal con `BeforeAfterSlider` drag (mouse + touch)
+- Datos en `src/data/treatments.ts`
 
 ### 3. Consultorio (`/consultorio`)
-
-- Galería masonry de fotos del espacio
-- Sección "Tecnología y herramientas": cards con flip-on-hover
-  - Frente: foto de la herramienta
-  - Dorso: nombre, descripción, para qué sirve
-- Texto sobre el ambiente y la experiencia del paciente
+- `OfficeGallery`: galería masonry con `columns` CSS, items con placeholder
+- `ToolCard`: flip CSS 3D on-hover — frente foto, dorso descripción + propósito
+- 6 herramientas definidas inline en la página
 
 ### 4. Turnos (`/turnos`)
+- Layout asimétrico: columna info (sticky) + formulario glassmorphism
+- `TurnoForm`: react-hook-form + zod (`turno-schema.ts`), POST a `/api/turnos`
+- `ConfirmationModal` con animación de entrada + ícono checkmark
 
-- Formulario en card glassmorphism centrado
-- Campos: nombre completo, email, teléfono, tipo de consulta (select), fecha preferida, horario preferido, mensaje
-- Validación en cliente con react-hook-form + zod
-- Al enviar: POST a `/api/turnos` → guarda en PostgreSQL → email confirmación al paciente → email aviso a la doctora
-- Modal de confirmación con animación suave
+### 5. Blog (`/blog` y `/blog/[slug]`)
+- Artículos en `src/content/blog/*.mdx` con frontmatter: `title`, `excerpt`, `category`, `date`, `coverImage`
+- `getAllArticles()` y `getArticleBySlug()` en `lib/blog.ts` con `gray-matter`
+- `MDXComponents` define h1–h3, párrafos, listas, blockquote y separadores con estilo editorial
+- Artículo individual renderiza con `next-mdx-remote/rsc` + CTA de turno al final
 
-### 5. Blog (`/blog`)
-
-- Grid de artículos con imagen de portada, categoría, título y extracto
-- Artículos escritos en `.mdx`
-- Componentes custom: cita destacada, imagen con caption, alerta informativa
+### 6. Admin (`/admin/turnos`)
+- Protegido por contraseña (`ADMIN_SECRET`)
+- Lista turnos con filtro por estado
+- Cambio de estado inline (pendiente → confirmado → cancelado)
 
 ---
 
@@ -251,22 +238,24 @@ src/
 
 ```prisma
 model Turno {
-  id            String   @id @default(cuid())
-  nombre        String
-  email         String
-  telefono      String
-  tipoConsulta  String
+  id             String   @id @default(cuid())
+  nombre         String
+  email          String
+  telefono       String
+  tipoConsulta   String
   fechaPreferida DateTime
-  horario       String
-  mensaje       String?
-  estado        String   @default("pendiente") // pendiente | confirmado | cancelado
-  createdAt     DateTime @default(now())
+  horario        String
+  mensaje        String?
+  estado         String   @default("pendiente") // pendiente | confirmado | cancelado
+  createdAt      DateTime @default(now())
 }
 ```
 
 ---
 
 ## Variables de Entorno (`.env.local`)
+
+Ver `.env.local.example` en la raíz del proyecto para instrucciones detalladas.
 
 ```env
 # Base de datos (Supabase)
@@ -282,8 +271,14 @@ NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME="..."
 CLOUDINARY_API_KEY="..."
 CLOUDINARY_API_SECRET="..."
 
-# Admin (acceso simple al panel de turnos)
-ADMIN_SECRET="tu-clave-secreta"
+# Sitio (para SEO y sitemap)
+NEXT_PUBLIC_SITE_URL="https://www.dra-cajal.com"
+
+# Foto principal del hero (public_id en Cloudinary)
+NEXT_PUBLIC_HERO_IMAGE_ID=""
+
+# Admin
+ADMIN_SECRET="clave-segura"
 ```
 
 ---
@@ -294,8 +289,10 @@ ADMIN_SECRET="tu-clave-secreta"
 # Instalar dependencias
 npm install
 
-# Inicializar base de datos
+# Generar cliente Prisma
 npx prisma generate
+
+# Crear tablas en Supabase (solo una vez)
 npx prisma db push
 
 # Desarrollo local
@@ -304,19 +301,25 @@ npm run dev
 # Build de producción
 npm run build
 
-# Deploy (automático con Vercel en push a main)
+# Deploy (Vercel detecta push a main automáticamente)
 git push origin main
 ```
+
+> **Nota Vercel:** el `vercel.json` define `buildCommand: "prisma generate && next build"` para que el cliente Prisma se genere antes de compilar.
 
 ---
 
 ## SEO y Performance
 
-- `metadata` de Next.js en cada página (title, description, og:image)
-- `next/image` para todas las imágenes (optimización automática)
-- Fuentes con `next/font` (sin layout shift)
+- `metadataBase` configurado con `NEXT_PUBLIC_SITE_URL`
+- `title` con template `"%s — Dra. María Paula Cajal"` en todas las páginas
+- Schema.org `LocalBusiness + Physician` inyectado en el `<head>` del layout global
+- `/sitemap.xml` generado automáticamente (rutas estáticas + blog)
+- `/robots.txt` generado automáticamente (bloquea `/admin/` y `/api/`)
+- `CldImage` para todas las imágenes (optimización automática vía Cloudinary)
+- Fuentes con `next/font/google` (sin layout shift)
+- `scroll-padding-top: 80px` para compensar la navbar fija en anchor links
 - Objetivo Lighthouse: 90+ en Performance, Accessibility, SEO
-- Schema.org: `LocalBusiness` + `Physician` para SEO local
 
 ---
 
@@ -327,36 +330,21 @@ git push origin main
 - Variables CSS en `globals.css`, no hardcodear colores en componentes
 - Animaciones: importar siempre desde `lib/animations.ts`
 - No usar `any` en TypeScript
-- Imágenes del proyecto: subir a Cloudinary, nunca al repo
+- Imágenes: subir a Cloudinary, nunca al repo. Usar `CldImage` en componentes
+- Metadata en páginas `"use client"`: crear `layout.tsx` en el mismo directorio
 
 ---
 
-## Stack Tecnológico (resumen)
+## Verificación Final (Checklist de Deploy)
 
-| Capa        | Tecnología                     | Justificación                 |
-| ----------- | ------------------------------ | ----------------------------- |
-| Framework   | Next.js 14 (App Router)        | SEO superior, SSR/SSG híbrido |
-| Lenguaje    | TypeScript                     | Tipado fuerte                 |
-| Estilos     | Tailwind CSS + shadcn/ui       | Rápido, consistente           |
-| Animaciones | Framer Motion                  | Transiciones suaves           |
-| Imágenes    | Cloudinary                     | Optimización automática       |
-| Blog        | MDX + next-mdx-remote          | Artículos en Markdown + React |
-| Turnos (DB) | Prisma + PostgreSQL (Supabase) | Gratuito, gestionado          |
-| Emails      | Resend                         | Confirmaciones automáticas    |
-| Hosting     | Vercel                         | Deploy automático             |
-
----
-
-## Verificación Final
-
-1. `npm run dev` → verificar todas las rutas navegables
+1. `npm run dev` → navegar todas las rutas sin errores
 2. Slider before/after funciona con drag en mobile y desktop
-3. Enviar turno de prueba:
-   - Aparece en DB (Supabase dashboard)
-   - Email llega al paciente
-   - Email llega a la doctora
-4. Blog: artículo MDX renderiza correctamente con componentes custom
-5. Lighthouse en `/` → 90+ en Performance, Accessibility, Best Practices, SEO
-6. Responsive: probar en 375px, 768px, 1280px, 1920px
-
----
+3. `TurnoForm`: enviar turno de prueba
+   - Aparece en Supabase dashboard (tabla `Turno`)
+   - Email de confirmación llega al paciente
+   - Email de aviso llega a la doctora
+4. Blog: artículo MDX renderiza con componentes custom
+5. `/admin/turnos`: login con `ADMIN_SECRET`, cambio de estado funciona
+6. Lighthouse en `/` → 90+ en Performance, Accessibility, Best Practices, SEO
+7. Responsive: probar en 375px, 768px, 1280px, 1920px
+8. Sitemap en `/sitemap.xml` incluye todos los artículos

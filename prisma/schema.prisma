@@ -1,0 +1,21 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Turno {
+  id             String   @id @default(cuid())
+  nombre         String
+  email          String
+  telefono       String
+  tipoConsulta   String
+  fechaPreferida DateTime
+  horario        String
+  mensaje        String?
+  estado         String   @default("pendiente") // pendiente | confirmado | cancelado
+  createdAt      DateTime @default(now())
+}
