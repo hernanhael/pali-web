@@ -96,20 +96,6 @@ export default function ConsultorioPage() {
           </div>
         </div>
 
-        <GoldDivider />
-
-        {/* CTA */}
-        <div className="text-center flex flex-col items-center gap-6">
-          <p className="font-heading text-3xl md:text-4xl text-ink max-w-xl">
-            ¿Querés venir a conocer el consultorio?
-          </p>
-          <a
-            href="/turnos"
-            className="font-sans text-sm font-medium px-8 py-3 rounded-full bg-ink text-bg hover:bg-gold hover:text-ink transition-all duration-300"
-          >
-            Reservar turno
-          </a>
-        </div>
       </div>
     </div>
   );

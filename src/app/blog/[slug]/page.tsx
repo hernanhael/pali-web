@@ -76,18 +76,6 @@ export default function ArticlePage({ params }: Props) {
 
         <GoldDivider className="mt-16 mb-10" />
 
-        {/* CTA */}
-        <div className="glass rounded-2xl p-8 text-center flex flex-col items-center gap-4">
-          <p className="font-heading text-2xl text-ink">
-            ¿Querés consultar con la Dra. Cajal?
-          </p>
-          <Link
-            href="/turnos"
-            className="font-sans text-sm font-medium px-8 py-3 rounded-full bg-ink text-bg hover:bg-gold hover:text-ink transition-all duration-300"
-          >
-            Reservar turno
-          </Link>
-        </div>
       </div>
     </div>
   );

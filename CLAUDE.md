@@ -348,3 +348,28 @@ git push origin main
 6. Lighthouse en `/` → 90+ en Performance, Accessibility, Best Practices, SEO
 7. Responsive: probar en 375px, 768px, 1280px, 1920px
 8. Sitemap en `/sitemap.xml` incluye todos los artículos
+
+---
+
+## Estado actual del proyecto (sesión 2026-03-19)
+
+### ✅ Completado
+
+- **Supabase configurado:** tabla `Turno` creada. Conexión via pooler (puerto 6543) + directUrl (puerto 5432) en `prisma/schema.prisma`.
+- **Cloudinary configurado:** cloud `ds2fujktd`. Foto del hero cargada (`NEXT_PUBLIC_HERO_IMAGE_ID=2_lzr1ji`).
+- **Resend configurado:** API key cargada. Modo sandbox activo (`EMAIL_FROM=onboarding@resend.dev`) hasta tener dominio propio.
+- **CTAs de turnos reducidos:** eliminados los botones "Reservar turno" del final de Consultorio, el modal de Tratamientos y el final de artículos del Blog. Solo quedan los del navbar y footer.
+
+### ⏳ Pendiente
+
+1. **Dominio propio** — comprar (ej. `dra-cajal.com`) y apuntarlo a Vercel.
+2. **Resend + dominio** — verificar el dominio en Resend y actualizar `EMAIL_FROM` en `.env.local` (y en Vercel) para que los emails lleguen a cualquier paciente.
+3. **Imágenes en Cloudinary** — subir y cargar los Public IDs de:
+   - Diplomas y certificados (`src/data/credentials.ts` → campo `cloudinaryId`)
+   - Fotos before/after de tratamientos (`src/data/treatments.ts` → campo `cloudinaryIds`)
+   - Fotos del consultorio (`src/components/consultorio/OfficeGallery.tsx`)
+4. **Deploy en Vercel** — conectar el repo de GitHub, cargar todas las variables de entorno del `.env.local` y hacer el primer deploy.
+5. **Actualizar `NEXT_PUBLIC_SITE_URL`** — reemplazar `http://localhost:3000` por la URL real de producción en Vercel (antes de tener dominio: `https://pali-web.vercel.app` o similar).
+6. **`ADMIN_SECRET`** — cambiar el valor placeholder por una contraseña segura real.
+7. **Número de WhatsApp** — actualizar en `src/components/layout/WhatsAppButton.tsx`.
+8. **Datos reales** — reemplazar los datos placeholder de diplomas, tratamientos y testimonios con la información real de la doctora.

@@ -1,13 +1,14 @@
-"use client";
+'use client'
 
-import Link from "next/link";
-import { motion } from "framer-motion";
-import { CldImage } from "next-cloudinary";
-import { fadeUp, stagger } from "@/lib/animations";
-import { CountUp } from "@/components/ui/CountUp";
+import Link from 'next/link'
+import { motion } from 'framer-motion'
+import { CldImage } from 'next-cloudinary'
+import { fadeUp, stagger } from '@/lib/animations'
+import { CountUp } from '@/components/ui/CountUp'
 
 // Cuando se suba la foto real a Cloudinary, reemplazar este valor
-const HERO_IMAGE_ID = process.env.NEXT_PUBLIC_HERO_IMAGE_ID ?? "";
+const HERO_IMAGE_ID =
+  process.env.NEXT_PUBLIC_HERO_IMAGE_ID ?? ''
 
 export function HeroSection() {
   return (
@@ -17,7 +18,7 @@ export function HeroSection() {
         className="absolute inset-0 opacity-30"
         style={{
           background:
-            "radial-gradient(ellipse 60% 80% at 70% 50%, rgba(170, 186, 198, 0.3) 0%, transparent 70%)",
+            'radial-gradient(ellipse 60% 80% at 70% 50%, rgba(170, 186, 198, 0.3) 0%, transparent 70%)',
         }}
       />
 
@@ -34,13 +35,15 @@ export function HeroSection() {
               variants={fadeUp}
               className="font-sans text-xs tracking-[0.25em] uppercase text-gold"
             >
-              Odontología · Buenos Aires
+              Odontología · Tucumán
             </motion.span>
 
             <motion.h1
               variants={fadeUp}
               className="font-heading leading-[1.05] text-ink"
-              style={{ fontSize: "clamp(3rem, 7vw, 5.5rem)" }}
+              style={{
+                fontSize: 'clamp(3rem, 7vw, 5.5rem)',
+              }}
             >
               Dra. María
               <br />
@@ -49,31 +52,22 @@ export function HeroSection() {
               Cajal
             </motion.h1>
 
-            <motion.div variants={fadeUp} className="gold-divider w-24 my-1" />
+            <motion.div
+              variants={fadeUp}
+              className="gold-divider w-24 my-1"
+            />
 
             <motion.p
               variants={fadeUp}
               className="font-sans text-[--text-secondary] leading-relaxed max-w-md"
-              style={{ fontSize: "clamp(0.95rem, 1.5vw, 1.1rem)" }}
+              style={{
+                fontSize: 'clamp(0.95rem, 1.5vw, 1.1rem)',
+              }}
             >
-              Cada sonrisa tiene su historia. Mi trabajo es acompañarte para
-              que la tuya sea la mejor versión de vos.
+              Cada sonrisa tiene su historia. Mi trabajo es
+              acompañarte para que la tuya sea la mejor
+              versión de vos.
             </motion.p>
-
-            <motion.div variants={fadeUp} className="flex gap-4 flex-wrap mt-2">
-              <Link
-                href="/turnos"
-                className="font-sans text-sm font-medium px-7 py-3 rounded-full bg-ink text-bg hover:bg-gold hover:text-ink transition-all duration-300"
-              >
-                Reservar turno
-              </Link>
-              <Link
-                href="/tratamientos"
-                className="font-sans text-sm font-medium px-7 py-3 rounded-full border border-ink/30 text-ink hover:border-gold hover:text-gold transition-all duration-300"
-              >
-                Ver tratamientos
-              </Link>
-            </motion.div>
 
             {/* Estadísticas con contador animado */}
             <motion.div
@@ -81,13 +75,31 @@ export function HeroSection() {
               className="flex gap-8 sm:gap-10 mt-6 pt-6 border-t border-warm/50"
             >
               {[
-                { end: 10, suffix: "+", label: "Años de experiencia" },
-                { end: 2000, suffix: "+", label: "Pacientes" },
-                { end: 15, suffix: "+", label: "Tratamientos" },
+                {
+                  end: 5,
+                  suffix: '+',
+                  label: 'Años de experiencia',
+                },
+                {
+                  end: 600,
+                  suffix: '+',
+                  label: 'Pacientes',
+                },
+                {
+                  end: 10,
+                  suffix: '+',
+                  label: 'Capacitaciones',
+                },
               ].map((stat) => (
-                <div key={stat.label} className="flex flex-col gap-0.5">
+                <div
+                  key={stat.label}
+                  className="flex flex-col gap-0.5"
+                >
                   <span className="font-heading text-3xl text-gold leading-none">
-                    <CountUp end={stat.end} suffix={stat.suffix} />
+                    <CountUp
+                      end={stat.end}
+                      suffix={stat.suffix}
+                    />
                   </span>
                   <span className="font-sans text-xs text-[--text-secondary]">
                     {stat.label}
@@ -102,7 +114,11 @@ export function HeroSection() {
             className="relative hidden lg:block"
             initial={{ opacity: 0, x: 40 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+            transition={{
+              duration: 0.9,
+              ease: [0.16, 1, 0.3, 1],
+              delay: 0.2,
+            }}
           >
             <div className="relative rounded-[2rem] overflow-hidden aspect-[4/5] bg-gradient-to-br from-blue-soft/30 to-warm/40 flex items-end">
               {HERO_IMAGE_ID ? (
@@ -121,14 +137,6 @@ export function HeroSection() {
                   </span>
                 </div>
               )}
-
-              {/* Card glassmorphism sobre la imagen */}
-              <div className="relative m-4 glass rounded-xl p-4 flex items-center gap-3">
-                <div className="w-2 h-2 rounded-full bg-[#4CAF50]" />
-                <span className="font-sans text-sm text-ink">
-                  Turnos disponibles hoy
-                </span>
-              </div>
             </div>
 
             {/* Elemento decorativo */}
@@ -151,10 +159,14 @@ export function HeroSection() {
         <motion.div
           className="w-px h-10 bg-gold/40"
           animate={{ scaleY: [0, 1, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-          style={{ transformOrigin: "top" }}
+          transition={{
+            duration: 1.5,
+            repeat: Infinity,
+            ease: 'easeInOut',
+          }}
+          style={{ transformOrigin: 'top' }}
         />
       </motion.div>
     </section>
-  );
+  )
 }

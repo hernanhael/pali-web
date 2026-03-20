@@ -108,12 +108,6 @@ export function TreatmentCard({ treatment, size = "medium" }: TreatmentCardProps
                   </div>
                 )}
 
-                <a
-                  href="/turnos"
-                  className="font-sans text-sm font-medium px-6 py-3 rounded-full bg-ink text-bg hover:bg-gold hover:text-ink transition-all duration-300 text-center mt-2"
-                >
-                  Reservar turno
-                </a>
               </div>
             </motion.div>
           </motion.div>

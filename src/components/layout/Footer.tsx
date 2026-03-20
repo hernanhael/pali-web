@@ -1,7 +1,19 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { GoldDivider } from "@/components/ui/GoldDivider";
 
 export function Footer() {
+  const pathname = usePathname();
+
+  const links = [
+    { href: "/tratamientos", label: "Tratamientos" },
+    { href: "/consultorio", label: "Consultorio" },
+    { href: "/blog", label: "Blog" },
+    ...(pathname !== "/turnos" ? [{ href: "/turnos", label: "Reservar turno" }] : []),
+  ];
+
   return (
     <footer className="bg-bg py-16 px-6">
       <div className="max-w-7xl mx-auto">
@@ -22,12 +34,7 @@ export function Footer() {
               Navegación
             </h4>
             <ul className="flex flex-col gap-2">
-              {[
-                { href: "/tratamientos", label: "Tratamientos" },
-                { href: "/consultorio", label: "Consultorio" },
-                { href: "/blog", label: "Blog" },
-                { href: "/turnos", label: "Reservar turno" },
-              ].map((link) => (
+              {links.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
