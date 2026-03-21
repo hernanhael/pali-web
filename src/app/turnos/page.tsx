@@ -1,10 +1,11 @@
-import { TurnoForm } from "@/components/turnos/TurnoForm";
-import { GoldDivider } from "@/components/ui/GoldDivider";
+import { TurnoForm } from '@/components/turnos/TurnoForm'
+import { GoldDivider } from '@/components/ui/GoldDivider'
 
 export const metadata = {
-  title: "Reservar turno — Dra. María Paula Cajal",
-  description: "Reservá tu turno online de forma rápida y sencilla.",
-};
+  title: 'Reservar turno — Dra. María Paula Cajal',
+  description:
+    'Reservá tu turno online de forma rápida y sencilla.',
+}
 
 export default function TurnosPage() {
   return (
@@ -27,23 +28,39 @@ export default function TurnosPage() {
             <GoldDivider className="w-24" />
 
             <p className="font-sans text-[--text-secondary] leading-relaxed">
-              Completá el formulario y nos pondremos en contacto dentro de las
-              24 horas hábiles para confirmar tu cita. También podés escribirnos
+              Completá el formulario y nos pondremos en
+              contacto dentro de las 24 horas hábiles para
+              confirmar tu cita. También podés escribirnos
               por WhatsApp.
             </p>
 
             {/* Info práctica */}
             <div className="flex flex-col gap-4">
               {[
-                { label: "Horario de atención", value: "Lun–Vie: 9:00 a 18:00 hs" },
-                { label: "Ubicación", value: "Buenos Aires, Argentina" },
-                { label: "Contacto directo", value: "mariapaulacajal@gmail.com" },
+                {
+                  label: 'Horario de atención',
+                  value: 'Lunes a Viernes: 9:00 a 18:00 hs',
+                },
+                {
+                  label: 'Ubicación',
+                  value:
+                    'Santa Fe 441, planta baja, San Miguel de Tucumán',
+                },
+                {
+                  label: 'Contacto directo',
+                  value: 'mariapaulacajal@gmail.com',
+                },
               ].map((item) => (
-                <div key={item.label} className="flex flex-col gap-0.5">
+                <div
+                  key={item.label}
+                  className="flex flex-col gap-0.5"
+                >
                   <span className="font-sans text-xs text-gold tracking-wide uppercase">
                     {item.label}
                   </span>
-                  <span className="font-sans text-sm text-ink">{item.value}</span>
+                  <span className="font-sans text-sm text-ink">
+                    {item.value}
+                  </span>
                 </div>
               ))}
             </div>
@@ -51,8 +68,9 @@ export default function TurnosPage() {
             {/* Primer turno */}
             <div className="glass rounded-2xl p-5">
               <p className="font-sans text-sm text-ink/80 leading-relaxed">
-                ✦ La primera consulta incluye revisión completa, diagnóstico y plan
-                de tratamiento sin costo adicional.
+                ✦ La primera consulta incluye revisión
+                completa, diagnóstico y plan de tratamiento
+                sin costo adicional.
               </p>
             </div>
           </div>
@@ -64,5 +82,5 @@ export default function TurnosPage() {
         </div>
       </div>
     </div>
-  );
+  )
 }

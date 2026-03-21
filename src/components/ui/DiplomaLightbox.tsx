@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
 import { CldImage } from "next-cloudinary";
@@ -20,7 +21,7 @@ export function DiplomaLightbox({ diploma, onClose }: DiplomaLightboxProps) {
     return () => document.removeEventListener("keydown", handler);
   }, [onClose]);
 
-  return (
+  const modal = (
     <AnimatePresence>
       {diploma && (
         <motion.div
@@ -34,7 +35,7 @@ export function DiplomaLightbox({ diploma, onClose }: DiplomaLightboxProps) {
           <div className="absolute inset-0 bg-ink/60 backdrop-blur-sm" />
 
           <motion.div
-            className="relative z-10 glass rounded-3xl p-6 max-w-lg w-full"
+            className="relative z-10 bg-[#ECEBE8] rounded-3xl p-6 max-w-lg w-full"
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
@@ -78,4 +79,7 @@ export function DiplomaLightbox({ diploma, onClose }: DiplomaLightboxProps) {
       )}
     </AnimatePresence>
   );
+
+  if (typeof document === "undefined") return null;
+  return createPortal(modal, document.body);
 }

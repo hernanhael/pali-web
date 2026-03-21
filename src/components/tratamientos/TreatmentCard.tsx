@@ -65,7 +65,7 @@ export function TreatmentCard({ treatment, size = "medium" }: TreatmentCardProps
           >
             <div className="absolute inset-0 bg-ink/50 backdrop-blur-sm" />
             <motion.div
-              className="relative z-10 glass rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+              className="relative z-10 bg-[#ECEBE8] rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto"
               initial={{ scale: 0.9, opacity: 0, y: 20 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.9, opacity: 0, y: 20 }}

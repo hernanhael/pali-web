@@ -1,5 +1,6 @@
 "use client";
 
+import { createPortal } from 'react-dom'
 import { motion, AnimatePresence } from "framer-motion";
 import { CheckCircle } from "lucide-react";
 
@@ -10,7 +11,7 @@ interface ConfirmationModalProps {
 }
 
 export function ConfirmationModal({ open, name, onClose }: ConfirmationModalProps) {
-  return (
+  const modal = (
     <AnimatePresence>
       {open && (
         <motion.div
@@ -23,7 +24,7 @@ export function ConfirmationModal({ open, name, onClose }: ConfirmationModalProp
           <div className="absolute inset-0 bg-ink/50 backdrop-blur-sm" />
 
           <motion.div
-            className="relative z-10 glass rounded-3xl p-10 max-w-md w-full flex flex-col items-center text-center gap-5"
+            className="relative z-10 bg-[#ECEBE8] rounded-3xl p-10 max-w-md w-full flex flex-col items-center text-center gap-5"
             initial={{ scale: 0.85, opacity: 0, y: 30 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.85, opacity: 0 }}
@@ -57,5 +58,8 @@ export function ConfirmationModal({ open, name, onClose }: ConfirmationModalProp
         </motion.div>
       )}
     </AnimatePresence>
-  );
+  )
+
+  if (typeof document === 'undefined') return null
+  return createPortal(modal, document.body)
 }
