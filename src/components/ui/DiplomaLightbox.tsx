@@ -35,7 +35,7 @@ export function DiplomaLightbox({ diploma, onClose }: DiplomaLightboxProps) {
           <div className="absolute inset-0 bg-ink/60 backdrop-blur-sm" />
 
           <motion.div
-            className="relative z-10 bg-[#ECEBE8] rounded-3xl p-6 max-w-lg w-full"
+            className="relative z-10 bg-bg rounded-3xl p-6 max-w-lg w-full"
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
@@ -44,7 +44,7 @@ export function DiplomaLightbox({ diploma, onClose }: DiplomaLightboxProps) {
           >
             <button
               onClick={onClose}
-              className="absolute top-4 right-4 w-8 h-8 rounded-full bg-ink/10 flex items-center justify-center hover:bg-ink/20 transition-colors"
+              className="absolute top-4 right-4 z-10 w-8 h-8 rounded-full bg-ink/10 flex items-center justify-center hover:bg-ink/20 transition-colors"
             >
               <X size={16} />
             </button>

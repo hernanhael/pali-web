@@ -148,7 +148,7 @@ export default function AdminTurnosPage() {
                 month: "long",
                 year: "numeric",
               });
-              const creado = new Date(turno.createdAt).toLocaleDateString("es-AR", {
+              const creado = new Date(turno.createdAt).toLocaleString("es-AR", {
                 day: "numeric",
                 month: "short",
                 hour: "2-digit",

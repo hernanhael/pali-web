@@ -49,7 +49,7 @@ export function CustomSelect({
       </button>
 
       {open && (
-        <ul className="absolute z-50 mt-2 w-full bg-[#ECEBE8] border border-warm/50 rounded-2xl shadow-md overflow-hidden py-1.5">
+        <ul className="absolute z-50 mt-2 w-full bg-bg border border-warm/50 rounded-2xl shadow-md overflow-hidden py-1.5">
           {options.map((opt) => (
             <li
               key={opt}

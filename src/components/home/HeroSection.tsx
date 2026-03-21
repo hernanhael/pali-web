@@ -1,6 +1,5 @@
 'use client'
 
-import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { CldImage } from 'next-cloudinary'
 import { fadeUp, stagger } from '@/lib/animations'

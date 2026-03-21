@@ -21,10 +21,6 @@ export function CredentialsSection() {
   const especializaciones = credentials.filter(
     (d) => d.category === 'especializacion',
   )
-  const cursos = credentials.filter(
-    (d) => d.category === 'curso',
-  )
-
   return (
     <section className="py-28 px-6 bg-bg">
       <div className="max-w-7xl mx-auto flex flex-col gap-16">

@@ -24,7 +24,7 @@ export function ConfirmationModal({ open, name, onClose }: ConfirmationModalProp
           <div className="absolute inset-0 bg-ink/50 backdrop-blur-sm" />
 
           <motion.div
-            className="relative z-10 bg-[#ECEBE8] rounded-3xl p-10 max-w-md w-full flex flex-col items-center text-center gap-5"
+            className="relative z-10 bg-bg rounded-3xl p-10 max-w-md w-full flex flex-col items-center text-center gap-5"
             initial={{ scale: 0.85, opacity: 0, y: 30 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.85, opacity: 0 }}
