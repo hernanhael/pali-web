@@ -60,13 +60,6 @@ export function DiplomaCard({
           </div>
         )}
 
-        {isFeatured && (
-          <div className="absolute top-3 left-3 glass rounded-full px-3 py-1 z-10">
-            <span className="font-sans text-xs text-gold tracking-wide">
-              Título universitario
-            </span>
-          </div>
-        )}
       </div>
 
       {/* Info */}
