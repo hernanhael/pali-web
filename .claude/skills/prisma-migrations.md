@@ -1,3 +1,8 @@
+---
+name: prisma-migrations
+description: Flujo seguro para modificar el schema de Prisma y aplicar migraciones en desarrollo y producción con Supabase.
+---
+
 # Skill: prisma-migrations
 
 ## Cuándo aplicar este skill

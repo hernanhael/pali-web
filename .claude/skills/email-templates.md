@@ -1,3 +1,8 @@
+---
+name: email-templates
+description: Templates HTML para emails enviados con Resend: confirmación de turno al paciente, aviso a la doctora y cambios de estado desde el panel admin.
+---
+
 # Skill: email-templates
 
 ## Cuándo aplicar este skill

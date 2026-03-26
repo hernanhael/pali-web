@@ -1,3 +1,8 @@
+---
+name: a11y-checker
+description: Auditar accesibilidad WCAG 2.1 AA antes de terminar secciones o al crear componentes interactivos como formularios, modales y sliders.
+---
+
 # Agent: a11y-checker
 
 ## Descripción

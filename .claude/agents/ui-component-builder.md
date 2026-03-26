@@ -1,3 +1,8 @@
+---
+name: ui-component-builder
+description: Crear o modificar componentes UI (cards, secciones, variantes visuales) siguiendo el sistema de diseño del proyecto.
+---
+
 # Agent: ui-component-builder
 
 ## Descripción

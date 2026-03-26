@@ -1,18 +1,18 @@
-import fs from "fs";
+import { promises as fs } from "fs";
 import path from "path";
 import matter from "gray-matter";
 import type { ArticleMeta } from "@/components/blog/ArticleCard";
 
 const BLOG_DIR = path.join(process.cwd(), "src/content/blog");
 
-export function getAllArticles(): ArticleMeta[] {
-  const files = fs.readdirSync(BLOG_DIR).filter((f) => f.endsWith(".mdx"));
+export async function getAllArticles(): Promise<ArticleMeta[]> {
+  const files = (await fs.readdir(BLOG_DIR)).filter((f) => f.endsWith(".mdx"));
 
-  return files
-    .map((filename) => {
+  const articles = await Promise.all(
+    files.map(async (filename) => {
       const slug = filename.replace(".mdx", "");
       const filePath = path.join(BLOG_DIR, filename);
-      const raw = fs.readFileSync(filePath, "utf-8");
+      const raw = await fs.readFile(filePath, "utf-8");
       const { data } = matter(raw);
 
       return {
@@ -23,16 +23,20 @@ export function getAllArticles(): ArticleMeta[] {
         date: data.date ?? "",
         coverImage: data.coverImage ?? "",
       } as ArticleMeta;
-    })
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    }),
+  );
+
+  return articles.sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+  );
 }
 
-export function getArticleBySlug(slug: string): {
+export async function getArticleBySlug(slug: string): Promise<{
   meta: ArticleMeta;
   content: string;
-} {
+}> {
   const filePath = path.join(BLOG_DIR, `${slug}.mdx`);
-  const raw = fs.readFileSync(filePath, "utf-8");
+  const raw = await fs.readFile(filePath, "utf-8");
   const { data, content } = matter(raw);
 
   return {

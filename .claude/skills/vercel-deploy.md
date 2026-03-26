@@ -1,3 +1,8 @@
+---
+name: vercel-deploy
+description: Guía de deploy en Vercel: configuración inicial, variables de entorno, dominio personalizado y diagnóstico de errores de build.
+---
+
 # Skill: vercel-deploy
 
 ## Cuándo aplicar este skill

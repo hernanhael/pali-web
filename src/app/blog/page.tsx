@@ -8,8 +8,8 @@ export const metadata = {
   description: "Artículos sobre salud bucal, estética dental y novedades odontológicas.",
 };
 
-export default function BlogPage() {
-  const articles = getAllArticles();
+export default async function BlogPage() {
+  const articles = await getAllArticles();
 
   return (
     <div className="min-h-screen bg-bg pt-28 pb-24 px-6">

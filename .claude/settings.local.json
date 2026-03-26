@@ -4,7 +4,18 @@
       "Bash(npx skills:*)",
       "Bash(npx:*)",
       "Bash(cp:*)",
-      "Bash(npm install:*)"
+      "Bash(npm install:*)",
+      "Bash(DATABASE_URL=\"postgresql://postgres:Mecano6131_@db.knmowmxmsqyigsqdltbu.supabase.co:5432/postgres\" npx prisma db push 2>&1)",
+      "Bash(DATABASE_URL=\"postgresql://postgres.knmowmxmsqyigsqdltbu:Mecano6131_@aws-0-us-west-2.pooler.supabase.com:6543/postgres?pgbouncer=true\" DIRECT_URL=\"postgresql://postgres.knmowmxmsqyigsqdltbu:Mecano6131_@aws-0-us-west-2.pooler.supabase.com:5432/postgres\" npx prisma db push 2>&1)",
+      "Bash(taskkill /F /IM node.exe)",
+      "Bash(taskkill //F //IM node.exe)",
+      "Bash(npm run:*)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000)",
+      "Bash(curl:*)",
+      "Bash(grep:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)"
     ]
   }
 }

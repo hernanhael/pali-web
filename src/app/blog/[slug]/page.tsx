@@ -3,6 +3,7 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import { getAllArticles, getArticleBySlug } from "@/lib/blog";
 import { mdxComponents } from "@/components/blog/MDXComponents";
 import { GoldDivider } from "@/components/ui/GoldDivider";
+import { formatDateShort } from "@/lib/date";
 import Link from "next/link";
 
 interface Props {
@@ -10,13 +11,13 @@ interface Props {
 }
 
 export async function generateStaticParams() {
-  const articles = getAllArticles();
+  const articles = await getAllArticles();
   return articles.map((a) => ({ slug: a.slug }));
 }
 
 export async function generateMetadata({ params }: Props) {
   try {
-    const { meta } = getArticleBySlug(params.slug);
+    const { meta } = await getArticleBySlug(params.slug);
     return {
       title: `${meta.title} — Dra. María Paula Cajal`,
       description: meta.excerpt,
@@ -26,19 +27,15 @@ export async function generateMetadata({ params }: Props) {
   }
 }
 
-export default function ArticlePage({ params }: Props) {
+export default async function ArticlePage({ params }: Props) {
   let meta, content;
   try {
-    ({ meta, content } = getArticleBySlug(params.slug));
+    ({ meta, content } = await getArticleBySlug(params.slug));
   } catch {
     notFound();
   }
 
-  const formattedDate = new Date(meta.date).toLocaleDateString("es-AR", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
+  const formattedDate = formatDateShort(meta.date);
 
   return (
     <div className="min-h-screen bg-bg pt-28 pb-24 px-6">

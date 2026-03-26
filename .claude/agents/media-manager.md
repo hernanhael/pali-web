@@ -1,3 +1,8 @@
+---
+name: media-manager
+description: Gestionar imágenes con Cloudinary: BeforeAfterSlider, galería masonry, DiplomaLightbox y transformaciones.
+---
+
 # Agent: media-manager
 
 ## Descripción

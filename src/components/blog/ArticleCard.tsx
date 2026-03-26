@@ -4,6 +4,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { CldImage } from "next-cloudinary";
 import { scaleIn, viewportConfig } from "@/lib/animations";
+import { formatDateShort } from "@/lib/date";
 
 export interface ArticleMeta {
   slug: string;
@@ -19,11 +20,7 @@ interface ArticleCardProps {
 }
 
 export function ArticleCard({ article }: ArticleCardProps) {
-  const formattedDate = new Date(article.date).toLocaleDateString("es-AR", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
+  const formattedDate = formatDateShort(article.date);
 
   return (
     <motion.article

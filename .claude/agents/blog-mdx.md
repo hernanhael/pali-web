@@ -1,3 +1,8 @@
+---
+name: blog-mdx
+description: Crear artículos MDX, modificar MDXComponents o configurar el renderizado en blog/[slug]/page.tsx.
+---
+
 # Agent: blog-mdx
 
 ## Descripción

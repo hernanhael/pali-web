@@ -1,3 +1,8 @@
+---
+name: animation-reviewer
+description: Revisar y corregir animaciones Framer Motion antes de commit o cuando una animación se siente incorrecta o agresiva.
+---
+
 # Agent: animation-reviewer
 
 ## Descripción

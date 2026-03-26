@@ -1,3 +1,8 @@
+---
+name: cloudinary-upload
+description: Guía para subir y organizar imágenes en Cloudinary siguiendo el esquema de carpetas del proyecto y usando CldImage en componentes.
+---
+
 # Skill: cloudinary-upload
 
 ## Cuándo aplicar este skill

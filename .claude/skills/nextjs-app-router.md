@@ -1,3 +1,8 @@
+---
+name: nextjs-app-router
+description: Patrones y convenciones para Next.js 14 App Router: cuándo usar Server vs Client Components, metadata por página, fetch de datos y Framer Motion.
+---
+
 # Skill: nextjs-app-router
 
 ## Cuándo aplicar este skill

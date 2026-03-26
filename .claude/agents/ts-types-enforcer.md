@@ -1,3 +1,8 @@
+---
+name: ts-types-enforcer
+description: Auditar TypeScript en strict mode: eliminar any, tipar props e interfaces, y corregir errores de compilación.
+---
+
 # Agent: ts-types-enforcer
 
 ## Descripción

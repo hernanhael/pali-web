@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { GoldDivider } from "@/components/ui/GoldDivider";
+import { formatDateShort, formatDateTime } from "@/lib/date";
 
 type Estado = "pendiente" | "confirmado" | "cancelado";
 
@@ -30,6 +31,7 @@ export default function AdminTurnosPage() {
   const [turnos, setTurnos] = useState<Turno[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [updateError, setUpdateError] = useState("");
   const [filtro, setFiltro] = useState<"todos" | Estado>("todos");
 
   const fetchTurnos = useCallback(async (key: string) => {
@@ -63,17 +65,26 @@ export default function AdminTurnosPage() {
   }, [filtro, authed, fetchTurnos, secret]);
 
   const updateEstado = async (id: string, estado: Estado) => {
-    await fetch("/api/admin/turnos", {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${secret}`,
-      },
-      body: JSON.stringify({ id, estado }),
-    });
-    setTurnos((prev) =>
-      prev.map((t) => (t.id === id ? { ...t, estado } : t))
-    );
+    setUpdateError("");
+    try {
+      const res = await fetch("/api/admin/turnos", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${secret}`,
+        },
+        body: JSON.stringify({ id, estado }),
+      });
+      if (!res.ok) {
+        setUpdateError("No se pudo actualizar el estado. Intentá de nuevo.");
+        return;
+      }
+      setTurnos((prev) =>
+        prev.map((t) => (t.id === id ? { ...t, estado } : t))
+      );
+    } catch {
+      setUpdateError("Error de conexión al actualizar el estado.");
+    }
   };
 
   if (!authed) {
@@ -136,6 +147,10 @@ export default function AdminTurnosPage() {
           ))}
         </div>
 
+        {updateError && (
+          <p role="alert" className="font-sans text-sm text-red-500">{updateError}</p>
+        )}
+
         {loading ? (
           <p className="font-sans text-sm text-[--text-secondary]">Cargando...</p>
         ) : turnos.length === 0 ? (
@@ -143,17 +158,8 @@ export default function AdminTurnosPage() {
         ) : (
           <div className="flex flex-col gap-4">
             {turnos.map((turno) => {
-              const fecha = new Date(turno.fechaPreferida).toLocaleDateString("es-AR", {
-                day: "numeric",
-                month: "long",
-                year: "numeric",
-              });
-              const creado = new Date(turno.createdAt).toLocaleString("es-AR", {
-                day: "numeric",
-                month: "short",
-                hour: "2-digit",
-                minute: "2-digit",
-              });
+              const fecha = formatDateShort(turno.fechaPreferida);
+              const creado = formatDateTime(turno.createdAt);
 
               return (
                 <div

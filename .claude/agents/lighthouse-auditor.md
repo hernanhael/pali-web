@@ -1,3 +1,8 @@
+---
+name: lighthouse-auditor
+description: Optimizar performance antes de deploy o cuando Lighthouse reporta score menor a 90 en Performance.
+---
+
 # Agent: lighthouse-auditor
 
 ## Descripción

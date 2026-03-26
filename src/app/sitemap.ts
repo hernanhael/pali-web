@@ -3,8 +3,8 @@ import { getAllArticles } from "@/lib/blog";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.dra-cajal.com";
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const articles = getAllArticles();
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const articles = await getAllArticles();
 
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: SITE_URL, lastModified: new Date(), changeFrequency: "monthly", priority: 1 },

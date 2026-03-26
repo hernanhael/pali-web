@@ -1,3 +1,8 @@
+---
+name: mdx-authoring
+description: Guía para crear y editar artículos del blog en MDX, incluyendo frontmatter requerido, componentes disponibles (Callout, ImageCaption, Quote) y checklist de publicación.
+---
+
 # Skill: mdx-authoring
 
 ## Cuándo aplicar este skill

@@ -1,3 +1,8 @@
+---
+name: design-system
+description: Referencia rápida del sistema de diseño del proyecto: paleta de colores, tipografía, glassmorphism, border radius, espaciado y animaciones.
+---
+
 # Skill: design-system
 
 ## Cuándo aplicar este skill

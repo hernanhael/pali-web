@@ -36,6 +36,7 @@ export function TurnoForm() {
   const [submitting, setSubmitting] = useState(false)
   const [confirmed, setConfirmed] = useState(false)
   const [submittedName, setSubmittedName] = useState('')
+  const [submitError, setSubmitError] = useState('')
 
   const {
     register,
@@ -49,6 +50,7 @@ export function TurnoForm() {
 
   const onSubmit = async (data: TurnoFormData) => {
     setSubmitting(true)
+    setSubmitError('')
     try {
       const res = await fetch('/api/turnos', {
         method: 'POST',
@@ -59,9 +61,16 @@ export function TurnoForm() {
         setSubmittedName(data.nombre)
         setConfirmed(true)
         reset()
+      } else {
+        const body = await res.json().catch(() => ({}))
+        setSubmitError(
+          body.message ?? 'Ocurrió un error al enviar la solicitud. Por favor, intentá de nuevo.',
+        )
       }
     } catch {
-      // Mostrar error al usuario en producción
+      setSubmitError(
+        'No se pudo conectar con el servidor. Verificá tu conexión e intentá de nuevo.',
+      )
     } finally {
       setSubmitting(false)
     }
@@ -232,6 +241,17 @@ export function TurnoForm() {
             className={`${inputClass} resize-none`}
           />
         </motion.div>
+
+        {/* Error de envío */}
+        {submitError && (
+          <motion.p
+            variants={fadeUp}
+            role="alert"
+            className="font-sans text-sm text-red-500 text-center"
+          >
+            {submitError}
+          </motion.p>
+        )}
 
         {/* Submit */}
         <motion.div variants={fadeUp}>

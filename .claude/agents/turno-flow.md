@@ -1,3 +1,8 @@
+---
+name: turno-flow
+description: Trabajar en el flujo de reserva de turnos: formulario, API route, Prisma, Resend y validación con Zod.
+---
+
 # Agent: turno-flow
 
 ## Descripción

@@ -1,3 +1,8 @@
+---
+name: responsive-testing
+description: Checklist de pruebas responsive en los 4 breakpoints del proyecto (375px, 768px, 1280px, 1920px) con problemas frecuentes y soluciones.
+---
+
 # Skill: responsive-testing
 
 ## Cuándo aplicar este skill

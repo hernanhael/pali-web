@@ -1,5 +1,6 @@
 import { Resend } from 'resend'
 import type { TurnoFormData } from './turno-schema'
+import { formatDateLong } from './date'
 
 function getResend() {
   const key = process.env.RESEND_API_KEY
@@ -7,20 +8,25 @@ function getResend() {
   return new Resend(key)
 }
 
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;')
+}
+
 export async function sendConfirmationEmail(
   data: TurnoFormData,
 ) {
   const resend = getResend()
-  if (!resend) return // No configurado aún
+  if (!resend) return
 
-  const fecha = new Date(
-    data.fechaPreferida,
-  ).toLocaleDateString('es-AR', {
-    weekday: 'long',
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric',
-  })
+  const nombre = escapeHtml(data.nombre)
+  const tipoConsulta = escapeHtml(data.tipoConsulta)
+  const horario = escapeHtml(data.horario)
+  const fecha = formatDateLong(data.fechaPreferida)
 
   await resend.emails.send({
     from: process.env.EMAIL_FROM ?? 'turnos@dra-cajal.com',
@@ -34,7 +40,7 @@ export async function sendConfirmationEmail(
           <p style="font-size: 12px; color: #768B9A; margin: 4px 0 0;">Odontología · Tucumán</p>
         </div>
 
-        <p style="font-size: 16px;">Hola <strong>${data.nombre.split(' ')[0]}</strong>,</p>
+        <p style="font-size: 16px;">Hola <strong>${nombre.split(' ')[0]}</strong>,</p>
         <p style="font-size: 15px; color: #4A5568; line-height: 1.6;">
           Recibimos tu solicitud de turno. Nos pondremos en contacto dentro de las
           <strong>24 horas hábiles</strong> para confirmarte la cita.
@@ -42,9 +48,9 @@ export async function sendConfirmationEmail(
 
         <div style="background: #F5F4F1; border-radius: 12px; padding: 20px; margin: 24px 0;">
           <table style="width: 100%; font-size: 14px;">
-            <tr><td style="color: #768B9A; padding: 4px 0;">Consulta</td><td><strong>${data.tipoConsulta}</strong></td></tr>
+            <tr><td style="color: #768B9A; padding: 4px 0;">Consulta</td><td><strong>${tipoConsulta}</strong></td></tr>
             <tr><td style="color: #768B9A; padding: 4px 0;">Fecha preferida</td><td><strong>${fecha}</strong></td></tr>
-            <tr><td style="color: #768B9A; padding: 4px 0;">Horario</td><td><strong>${data.horario} hs</strong></td></tr>
+            <tr><td style="color: #768B9A; padding: 4px 0;">Horario</td><td><strong>${horario} hs</strong></td></tr>
           </table>
         </div>
 
@@ -68,32 +74,31 @@ export async function sendNotificationEmail(
   const resend = getResend()
   if (!resend) return
 
-  const fecha = new Date(
-    data.fechaPreferida,
-  ).toLocaleDateString('es-AR', {
-    weekday: 'long',
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric',
-  })
+  const nombre = escapeHtml(data.nombre)
+  const email = escapeHtml(data.email)
+  const telefono = escapeHtml(data.telefono)
+  const tipoConsulta = escapeHtml(data.tipoConsulta)
+  const horario = escapeHtml(data.horario)
+  const mensaje = data.mensaje ? escapeHtml(data.mensaje) : null
+  const fecha = formatDateLong(data.fechaPreferida)
 
   await resend.emails.send({
     from: process.env.EMAIL_FROM ?? 'turnos@dra-cajal.com',
     to:
       process.env.EMAIL_DOCTORA ??
       'mariapaulacajal@gmail.com',
-    subject: `Nuevo turno: ${data.nombre} — ${data.tipoConsulta}`,
+    subject: `Nuevo turno: ${nombre} — ${tipoConsulta}`,
     html: `
       <div style="font-family: sans-serif; max-width: 560px; margin: 0 auto; color: #2B2B2B;">
         <h2 style="color: #C8A96E;">Nueva solicitud de turno</h2>
         <table style="width: 100%; font-size: 14px; border-collapse: collapse;">
-          <tr style="border-bottom: 1px solid #eee;"><td style="padding: 8px; color: #768B9A;">Nombre</td><td style="padding: 8px;"><strong>${data.nombre}</strong></td></tr>
-          <tr style="border-bottom: 1px solid #eee;"><td style="padding: 8px; color: #768B9A;">Email</td><td style="padding: 8px;">${data.email}</td></tr>
-          <tr style="border-bottom: 1px solid #eee;"><td style="padding: 8px; color: #768B9A;">Teléfono</td><td style="padding: 8px;">${data.telefono}</td></tr>
-          <tr style="border-bottom: 1px solid #eee;"><td style="padding: 8px; color: #768B9A;">Tipo de consulta</td><td style="padding: 8px;">${data.tipoConsulta}</td></tr>
+          <tr style="border-bottom: 1px solid #eee;"><td style="padding: 8px; color: #768B9A;">Nombre</td><td style="padding: 8px;"><strong>${nombre}</strong></td></tr>
+          <tr style="border-bottom: 1px solid #eee;"><td style="padding: 8px; color: #768B9A;">Email</td><td style="padding: 8px;">${email}</td></tr>
+          <tr style="border-bottom: 1px solid #eee;"><td style="padding: 8px; color: #768B9A;">Teléfono</td><td style="padding: 8px;">${telefono}</td></tr>
+          <tr style="border-bottom: 1px solid #eee;"><td style="padding: 8px; color: #768B9A;">Tipo de consulta</td><td style="padding: 8px;">${tipoConsulta}</td></tr>
           <tr style="border-bottom: 1px solid #eee;"><td style="padding: 8px; color: #768B9A;">Fecha preferida</td><td style="padding: 8px;">${fecha}</td></tr>
-          <tr style="border-bottom: 1px solid #eee;"><td style="padding: 8px; color: #768B9A;">Horario</td><td style="padding: 8px;">${data.horario} hs</td></tr>
-          ${data.mensaje ? `<tr><td style="padding: 8px; color: #768B9A;">Mensaje</td><td style="padding: 8px;">${data.mensaje}</td></tr>` : ''}
+          <tr style="border-bottom: 1px solid #eee;"><td style="padding: 8px; color: #768B9A;">Horario</td><td style="padding: 8px;">${horario} hs</td></tr>
+          ${mensaje ? `<tr><td style="padding: 8px; color: #768B9A;">Mensaje</td><td style="padding: 8px;">${mensaje}</td></tr>` : ''}
         </table>
       </div>
     `,

@@ -24,6 +24,9 @@ export function ConfirmationModal({ open, name, onClose }: ConfirmationModalProp
           <div className="absolute inset-0 bg-ink/50 backdrop-blur-sm" />
 
           <motion.div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="confirmation-modal-title"
             className="relative z-10 bg-bg rounded-3xl p-10 max-w-md w-full flex flex-col items-center text-center gap-5"
             initial={{ scale: 0.85, opacity: 0, y: 30 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
@@ -40,7 +43,7 @@ export function ConfirmationModal({ open, name, onClose }: ConfirmationModalProp
             </motion.div>
 
             <div>
-              <h2 className="font-heading text-3xl text-ink">¡Solicitud enviada!</h2>
+              <h2 id="confirmation-modal-title" className="font-heading text-3xl text-ink">¡Solicitud enviada!</h2>
               <p className="font-sans text-[--text-secondary] mt-2 leading-relaxed">
                 Gracias, <span className="text-ink font-medium">{name.split(" ")[0]}</span>. Recibiste un email de confirmación. Nos pondremos en contacto para confirmar tu turno.
               </p>

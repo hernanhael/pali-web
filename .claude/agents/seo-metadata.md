@@ -1,3 +1,8 @@
+---
+name: seo-metadata
+description: Agregar o auditar metadata Next.js 14, Schema.org JSON-LD, og:image y configuración SEO global.
+---
+
 # Agent: seo-metadata
 
 ## Descripción

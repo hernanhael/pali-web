@@ -35,6 +35,9 @@ export function DiplomaLightbox({ diploma, onClose }: DiplomaLightboxProps) {
           <div className="absolute inset-0 bg-ink/60 backdrop-blur-sm" />
 
           <motion.div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="diploma-lightbox-title"
             className="relative z-10 bg-bg rounded-3xl p-6 max-w-lg w-full"
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
@@ -44,9 +47,10 @@ export function DiplomaLightbox({ diploma, onClose }: DiplomaLightboxProps) {
           >
             <button
               onClick={onClose}
+              aria-label="Cerrar diploma"
               className="absolute top-4 right-4 z-10 w-8 h-8 rounded-full bg-ink/10 flex items-center justify-center hover:bg-ink/20 transition-colors"
             >
-              <X size={16} />
+              <X size={16} aria-hidden="true" />
             </button>
 
             {/* Imagen grande */}
@@ -64,7 +68,7 @@ export function DiplomaLightbox({ diploma, onClose }: DiplomaLightboxProps) {
               )}
             </div>
 
-            <h3 className="font-heading text-2xl text-ink mb-1">{diploma.title}</h3>
+            <h3 id="diploma-lightbox-title" className="font-heading text-2xl text-ink mb-1">{diploma.title}</h3>
             <p className="font-sans text-sm text-[--text-secondary]">
               {diploma.institution}
             </p>

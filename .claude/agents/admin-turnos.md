@@ -1,3 +1,8 @@
+---
+name: admin-turnos
+description: Construir o modificar el panel admin de turnos: API protegida, listado de reservas y cambios de estado.
+---
+
 # Agent: admin-turnos
 
 ## Descripción
