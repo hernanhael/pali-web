@@ -36,26 +36,33 @@ export function TestimonialsSection() {
         />
 
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-3 gap-6"
+          className="grid grid-cols-1 md:grid-cols-[1.15fr_0.9fr_0.95fr] gap-6 items-start"
           initial="hidden"
           whileInView="visible"
           viewport={viewportConfig}
-          variants={{ visible: { transition: { staggerChildren: 0.1 } } }}
+          variants={{ visible: { transition: { staggerChildren: 0.12 } } }}
         >
-          {testimonials.map((t) => (
+          {testimonials.map((t, i) => (
             <motion.div
               key={t.name}
               variants={fadeUp}
-              className="glass rounded-2xl p-7 flex flex-col gap-4"
+              className={`glass rounded-2xl flex flex-col gap-4 ${
+                i === 0
+                  ? 'p-9 md:row-span-1'
+                  : i === 1
+                    ? 'p-7 md:mt-8'
+                    : 'p-7 md:-mt-2'
+              }`}
             >
               {/* Estrellas */}
               <div className="flex gap-1">
-                {Array.from({ length: t.rating }).map((_, i) => (
-                  <span key={i} className="text-gold text-sm">★</span>
+                {Array.from({ length: t.rating }).map((_, j) => (
+                  <span key={j} className="text-gold text-sm" aria-hidden="true">★</span>
                 ))}
+                <span className="sr-only">{t.rating} de 5 estrellas</span>
               </div>
 
-              <p className="font-sans text-sm text-ink/80 leading-relaxed flex-1">
+              <p className={`font-sans text-ink/80 leading-relaxed flex-1 ${i === 0 ? 'text-base' : 'text-sm'}`}>
                 &ldquo;{t.text}&rdquo;
               </p>
 

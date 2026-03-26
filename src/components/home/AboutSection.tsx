@@ -7,17 +7,17 @@ import { SectionTitle } from "@/components/ui/SectionTitle";
 
 const values = [
   {
-    icon: "✦",
+    icon: "I",
     title: "Escucha activa",
     desc: "Cada paciente tiene su tiempo. Me importa entender tu historia antes de proponer cualquier tratamiento.",
   },
   {
-    icon: "✦",
+    icon: "II",
     title: "Tecnología de vanguardia",
     desc: "Trabajo con equipos de última generación para resultados predecibles y tratamientos menos invasivos.",
   },
   {
-    icon: "✦",
+    icon: "III",
     title: "Estética natural",
     desc: "Busco resultados que se vean armónicos, que complementen tu rostro y personalidad.",
   },
@@ -102,7 +102,7 @@ export function AboutSection() {
                   variants={fadeUp}
                   className="flex gap-4"
                 >
-                  <span className="text-gold mt-0.5 flex-shrink-0">{v.icon}</span>
+                  <span className="font-heading text-gold text-lg leading-none mt-0.5 flex-shrink-0 w-8">{v.icon}</span>
                   <div>
                     <h4 className="font-sans font-medium text-ink text-sm mb-0.5">
                       {v.title}

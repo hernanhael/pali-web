@@ -138,9 +138,27 @@ export function HeroSection() {
               )}
             </div>
 
-            {/* Elemento decorativo */}
-            <div className="absolute -top-6 -right-6 w-24 h-24 rounded-full border border-gold/30" />
-            <div className="absolute -bottom-4 -left-4 w-16 h-16 rounded-full bg-gold/10" />
+            {/* Arco decorativo superior derecho */}
+            <motion.div
+              className="absolute -top-8 -right-8 w-40 h-40 rounded-full border border-gold/25"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.5 }}
+            />
+            <motion.div
+              className="absolute -top-4 -right-4 w-24 h-24 rounded-full border border-gold/15"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.65 }}
+            />
+            {/* Línea vertical editorial izquierda */}
+            <motion.div
+              className="absolute -left-5 top-1/4 h-1/2 w-px bg-gradient-to-b from-transparent via-gold/40 to-transparent"
+              initial={{ scaleY: 0, opacity: 0 }}
+              animate={{ scaleY: 1, opacity: 1 }}
+              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.8 }}
+              style={{ transformOrigin: 'top' }}
+            />
           </motion.div>
         </div>
       </div>
@@ -157,11 +175,12 @@ export function HeroSection() {
         </span>
         <motion.div
           className="w-px h-10 bg-gold/40"
-          animate={{ scaleY: [0, 1, 0] }}
+          animate={{ scaleY: [0, 1, 0], opacity: [0, 1, 0] }}
           transition={{
             duration: 1.5,
-            repeat: Infinity,
+            repeat: 2,
             ease: 'easeInOut',
+            repeatDelay: 0.3,
           }}
           style={{ transformOrigin: 'top' }}
         />
