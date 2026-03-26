@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { SectionTitle } from '@/components/ui/SectionTitle'
 import { GoldDivider } from '@/components/ui/GoldDivider'
 import { DiplomaCard } from './DiplomaCard'
@@ -21,6 +21,10 @@ export function CredentialsSection() {
   const especializaciones = credentials.filter(
     (d) => d.category === 'especializacion',
   )
+  const cursos = useMemo(() => {
+    const all = credentials.filter((d) => d.category === 'curso')
+    return [...all].sort(() => Math.random() - 0.5)
+  }, [])
   return (
     <section className="py-28 px-6 bg-bg">
       <div className="max-w-7xl mx-auto flex flex-col gap-16">
@@ -56,6 +60,25 @@ export function CredentialsSection() {
                   key={d.id}
                   diploma={d}
                   variant="medium"
+                  onClick={setSelected}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Cursos — orden aleatorio en cada carga */}
+        {cursos.length > 0 && (
+          <div className="flex flex-col gap-6">
+            <h3 className="font-sans text-xs font-medium tracking-[0.2em] uppercase text-gold">
+              Cursos y jornadas
+            </h3>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {cursos.map((d) => (
+                <DiplomaCard
+                  key={d.id}
+                  diploma={d}
+                  variant="compact"
                   onClick={setSelected}
                 />
               ))}
